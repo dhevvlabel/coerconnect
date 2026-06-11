@@ -1,10 +1,10 @@
 {
-  "projectId": "halogen-voltage-dpwwt",
-  "appId": "1:274770579517:web:261bbbca39b771d2ad9a54",
-  "apiKey": "AIzaSyB7RAOj8DUWKCooL32qS46Co36t8bJ4oLw",
-  "authDomain": "halogen-voltage-dpwwt.firebaseapp.com",
-  "firestoreDatabaseId": "ai-studio-121490cb-4e2f-4b8b-b540-392334f83ff6",
-  "storageBucket": "halogen-voltage-dpwwt.firebasestorage.app",
-  "messagingSenderId": "274770579517",
-  "measurementId": ""
+  "projectId": "coerconnect-99a93",
+  "appId": "1:817086174402:web:082004efc851a08bf0975b",
+  "apiKey": "AIzaSyBnr0CcC2ofnCZjnSM8vD7zILuZV9PwSLU",
+  "authDomain": "coerconnect-99a93.firebaseapp.com",
+  "firestoreDatabaseId": "default",
+  "storageBucket": "coerconnect-99a93.firebasestorage.app",
+  "messagingSenderId": "817086174402",
+  "measurementId": "G-MMW75FT2RL"
 }

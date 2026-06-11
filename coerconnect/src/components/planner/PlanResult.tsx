@@ -13,21 +13,23 @@ import {
   Info
 } from "lucide-react";
 import { motion } from "motion/react";
+import { useLanguage } from "../../contexts/LanguageContext";
 
 interface PlanResultProps {
   plan: ConcertPlan;
 }
 
 export function PlanResult({ plan }: PlanResultProps) {
+  const { t } = useLanguage();
   const { concert_summary, budget_allocation, itinerary, dresscode_recommendations, concert_kit_checklist } = plan;
 
   return (
     <div className="space-y-12">
       {/* Summary Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <StatCard label="Location" value={concert_summary.target_location} icon={<MapPin className="w-4 h-4" />} />
-        <StatCard label="Duration" value={`${concert_summary.estimated_days} Days`} icon={<Clock className="w-4 h-4" />} />
-        <StatCard label="Total Budget" value={concert_summary.total_budget_needed} icon={<Wallet className="w-4 h-4" />} />
+        <StatCard label={t('location')} value={concert_summary.target_location} icon={<MapPin className="w-4 h-4" />} />
+        <StatCard label={t('duration')} value={`${concert_summary.estimated_days} ${t('days')}`} icon={<Clock className="w-4 h-4" />} />
+        <StatCard label={t('totalBudget')} value={concert_summary.total_budget_needed} icon={<Wallet className="w-4 h-4" />} />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
@@ -36,7 +38,7 @@ export function PlanResult({ plan }: PlanResultProps) {
           <section>
             <h4 className="text-lg font-black mb-10 flex items-center gap-3 uppercase tracking-[0.2em]">
               <Clock className="text-accent w-5 h-5" />
-              ITINERARY
+              {t('itinerary')}
             </h4>
             <div className="space-y-12 relative before:absolute before:left-[19px] before:top-4 before:bottom-0 before:w-px before:bg-accent/10">
               {itinerary.map((day) => (
@@ -44,7 +46,7 @@ export function PlanResult({ plan }: PlanResultProps) {
                   <div className="absolute left-0 top-0 w-10 h-10 rounded-2xl bg-accent flex items-center justify-center font-black text-surface z-10 shadow-2xl shadow-accent/20 text-lg uppercase">
                     {day.day}
                   </div>
-                  <h5 className="text-2xl font-black mb-6 pt-1 leading-none uppercase tracking-tight">Day {day.day}</h5>
+                  <h5 className="text-2xl font-black mb-6 pt-1 leading-none uppercase tracking-tight">{t('day')} {day.day}</h5>
                   <div className="space-y-6">
                     {day.activities.map((act, idx) => (
                       <div key={idx} className="p-8 rounded-[32px] bg-surface border border-accent/5 shadow-xl shadow-accent/5 hover:border-accent/10 transition-all duration-500 group">
@@ -70,7 +72,7 @@ export function PlanResult({ plan }: PlanResultProps) {
           <section className="p-10 rounded-[48px] bg-surface border border-accent/5 shadow-2xl shadow-accent/5">
             <h4 className="text-sm font-black mb-8 flex items-center gap-3 uppercase tracking-[0.2em]">
               <TrendingUp className="text-accent w-4 h-4" />
-              BUDGET
+              {t('budget')}
             </h4>
             <div className="space-y-6">
               {budget_allocation.map((item, idx) => (
@@ -94,7 +96,7 @@ export function PlanResult({ plan }: PlanResultProps) {
           <section className="p-10 rounded-[48px] bg-surface border border-accent/5 shadow-2xl shadow-accent/5">
             <h4 className="text-sm font-black mb-8 flex items-center gap-3 uppercase tracking-[0.2em]">
               <Package className="text-accent w-4 h-4" />
-              CONCERT KIT
+              {t('concertKit')}
             </h4>
             <div className="space-y-4">
               {concert_kit_checklist.map((item, idx) => (
@@ -119,7 +121,7 @@ export function PlanResult({ plan }: PlanResultProps) {
           <section className="p-10 rounded-[48px] bg-surface border border-accent/5 shadow-2xl shadow-accent/5">
             <h4 className="text-sm font-black mb-8 flex items-center gap-3 uppercase tracking-[0.2em]">
               <Palette className="text-accent w-4 h-4" />
-              DRESSCODE
+              {t('dresscode')}
             </h4>
             <p className="text-xs font-black text-accent/40 mb-6 px-1 uppercase tracking-widest leading-relaxed">{dresscode_recommendations.concept}</p>
             <div className="flex gap-3 mb-10 px-1 flex-wrap">

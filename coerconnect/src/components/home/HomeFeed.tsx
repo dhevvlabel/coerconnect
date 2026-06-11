@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from "motion/react";
 import { Calendar, MapPin, Trash2, ChevronRight, MessageSquare, TrendingUp, Clock, Sparkles } from "lucide-react";
 import { SavedPlan } from "../../types";
+import { useLanguage } from "../../contexts/LanguageContext";
 
 interface HomeFeedProps {
   user: any;
@@ -12,16 +13,18 @@ interface HomeFeedProps {
 }
 
 export function HomeFeed({ user, savedPlans, deletePlan, viewPlan, startPlanning }: HomeFeedProps) {
+  const { t } = useLanguage();
+
   return (
     <div className="space-y-16">
       <header className="flex justify-between items-end">
         <div>
           <h2 className="text-6xl font-black tracking-tighter mb-4 uppercase">
-            HALO, <span className="text-accent">{user?.displayName?.split(' ')[0]}</span>
+            {t('hello')} <span className="text-accent">{user?.displayName?.split(' ')[0]}</span>
           </h2>
           <p className="text-accent/40 font-black uppercase tracking-[0.3em] text-sm flex items-center gap-3">
             <span className="w-8 h-px bg-accent/20" />
-            CONCERT HUB & SOCIAL FEED
+            {t('concertHub')}
           </p>
         </div>
         <div className="hidden lg:block">
@@ -43,9 +46,9 @@ export function HomeFeed({ user, savedPlans, deletePlan, viewPlan, startPlanning
             <div className="flex items-center justify-between">
               <h4 className="text-xs font-black flex items-center gap-3 uppercase tracking-[0.4em] text-accent/40">
                 <MessageSquare className="w-4 h-4" />
-                COER COMMUNITY FEED
+                {t('communityFeed')}
               </h4>
-              <button className="text-[10px] font-black uppercase tracking-widest text-accent/30 hover:text-accent transition-colors">View All</button>
+              <button className="text-[10px] font-black uppercase tracking-widest text-accent/30 hover:text-accent transition-colors">{t('viewAll')}</button>
             </div>
             
             <div className="space-y-4">
@@ -60,7 +63,7 @@ export function HomeFeed({ user, savedPlans, deletePlan, viewPlan, startPlanning
                 time="15m ago" 
               />
               <div className="p-8 rounded-[40px] border-2 border-dashed border-accent/5 bg-surface/50 flex items-center justify-center">
-                <p className="text-[10px] font-black text-accent/20 uppercase tracking-[0.3em]">Join the discussion in real-time</p>
+                <p className="text-[10px] font-black text-accent/20 uppercase tracking-[0.3em]">{t('joinDiscussion')}</p>
               </div>
             </div>
           </section>
@@ -69,7 +72,7 @@ export function HomeFeed({ user, savedPlans, deletePlan, viewPlan, startPlanning
           <section className="space-y-8">
             <h4 className="text-xs font-black flex items-center gap-3 uppercase tracking-[0.4em] text-accent/40">
               <TrendingUp className="w-4 h-4" />
-              TRENDING DISCUSSIONS
+              {t('trendingDiscussions')}
             </h4>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <TrendingCard tag="#PYPD_Tour" count="12.4K Posts" />
@@ -85,7 +88,7 @@ export function HomeFeed({ user, savedPlans, deletePlan, viewPlan, startPlanning
           <section className="space-y-6">
             <h4 className="text-xs font-black flex items-center gap-3 uppercase tracking-[0.4em] text-accent/40">
               <Calendar className="w-4 h-4" />
-              SAVED CONCERT PLANS
+              {t('savedPlans')}
             </h4>
             
             {savedPlans.length > 0 ? (
@@ -106,20 +109,20 @@ export function HomeFeed({ user, savedPlans, deletePlan, viewPlan, startPlanning
                     </div>
                     <h5 className="text-xl font-black mb-1 uppercase leading-none">{plan.city} TOUR</h5>
                     <p className="text-accent/30 text-[10px] font-bold mb-6 uppercase tracking-widest leading-relaxed">
-                      Your generated concert journey is just a few clicks away, by Coer, for Coer.
+                      {t('noPlansDesc')}
                     </p>
                     <button 
                       onClick={() => viewPlan(plan)}
                       className="w-full flex items-center justify-between px-6 py-4 rounded-2xl bg-sage/10 hover:bg-accent hover:text-surface transition-all text-[10px] font-black uppercase tracking-[0.3em]"
                     >
-                      View Journey
+                      {t('viewJourney')}
                       <ChevronRight className="w-4 h-4" />
                     </button>
                   </div>
                 ))}
                 {savedPlans.length > 2 && (
                    <div className="text-center">
-                      <button className="text-[10px] font-black uppercase tracking-widest text-accent/30 hover:text-accent transition-colors">See all {savedPlans.length} plans</button>
+                      <button className="text-[10px] font-black uppercase tracking-widest text-accent/30 hover:text-accent transition-colors">{t('viewAll')} {savedPlans.length} plans</button>
                    </div>
                 )}
               </div>
@@ -129,14 +132,14 @@ export function HomeFeed({ user, savedPlans, deletePlan, viewPlan, startPlanning
                    <img src="/src/assets/images/cortis_abstract_logo_1781202290639.jpg" alt="Logo" className="w-8 h-8 opacity-20 filter grayscale" />
                 </div>
                 <p className="text-accent/40 mb-8 font-bold uppercase tracking-widest text-[10px] leading-relaxed">
-                  Your generated concert journey is just a few clicks away, by Coer, for Coer.
+                  {t('noPlansDesc')}
                 </p>
                 <button 
                   onClick={startPlanning}
                   className="w-full py-4 bg-accent text-surface font-black rounded-2xl hover:opacity-90 transition-all uppercase tracking-widest text-xs flex items-center justify-center gap-2"
                 >
                   <Sparkles className="w-4 h-4" />
-                  Create Your Kit
+                  {t('createYourKit')}
                 </button>
               </div>
             )}
@@ -146,7 +149,7 @@ export function HomeFeed({ user, savedPlans, deletePlan, viewPlan, startPlanning
           <section className="space-y-6">
             <h4 className="text-xs font-black flex items-center gap-3 uppercase tracking-[0.4em] text-accent/40">
               <Clock className="w-4 h-4" />
-              CORTIS SCHEDULE
+              {t('cortisSchedule')}
             </h4>
             <div className="p-8 rounded-[40px] bg-accent text-surface shadow-2xl shadow-accent/20 space-y-6">
               <ScheduleItem title="Incheon World Tour Stop" date="June 15, 2026" />

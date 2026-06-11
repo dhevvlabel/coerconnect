@@ -4,6 +4,7 @@
  */
 
 import { AuthProvider, useAuth } from "./hooks/useAuth";
+import { LanguageProvider } from "./contexts/LanguageContext";
 import { LandingPage } from "./components/LandingPage";
 import { Dashboard } from "./components/Dashboard";
 import { Loader2 } from "lucide-react";
@@ -24,8 +25,10 @@ function AppContent() {
 
 export default function App() {
   return (
-    <AuthProvider>
-      <AppContent />
-    </AuthProvider>
+    <LanguageProvider>
+      <AuthProvider>
+        <AppContent />
+      </AuthProvider>
+    </LanguageProvider>
   );
 }

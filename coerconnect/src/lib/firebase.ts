@@ -1,28 +1,39 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
-import { getFirestore, doc, getDocFromServer } from 'firebase/firestore';
-
-// In AI Studio, this file is generated after set_up_firebase is completed.
-// We'll use a dynamic import or a fallback to prevent build errors.
+import { 
+  getFirestore, 
+  doc, 
+  getDoc,
+  setDoc,
+  collection,
+  query,
+  where,
+  onSnapshot,
+  addDoc,
+  deleteDoc,
+  getDocFromServer
+} from 'firebase/firestore';
 import firebaseConfig from '../../firebase-applet-config.json';
 
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
-// @ts-ignore
-export const db = getFirestore(app, firebaseConfig.firestoreDatabaseId);
 
-async function testConnection() {
-  if (!db) return;
+// Initialize Firestore
+export const db = getFirestore(app, (firebaseConfig as any).firestoreDatabaseId);
+
+// Connectivity check helper
+export async function checkFirestoreConnection(): Promise<boolean> {
   try {
-    await getDocFromServer(doc(db, 'test', 'connection'));
-  } catch (error) {
-    if (error instanceof Error && error.message.includes('the client is offline')) {
-      console.error("Please check your Firebase configuration.");
+    await getDocFromServer(doc(db, '_connection_test_', 'ping'));
+    return true;
+  } catch (error: any) {
+    if (error.code === 'permission-denied' || error.code === 'not-found') {
+      return true;
     }
+    console.warn("Firestore connectivity check warning:", error.message);
+    return false;
   }
 }
-
-testConnection();
 
 export enum OperationType {
   CREATE = 'create',
@@ -50,7 +61,7 @@ export interface FirestoreErrorInfo {
   }
 }
 
-export function handleFirestoreError(error: unknown, operationType: OperationType, path: string | null) {
+export function handleFirestoreError(error: unknown, operationType: OperationType, path: string | null, shouldThrow = true) {
   const errInfo: FirestoreErrorInfo = {
     error: error instanceof Error ? error.message : String(error),
     authInfo: {
@@ -68,5 +79,7 @@ export function handleFirestoreError(error: unknown, operationType: OperationTyp
     path
   }
   console.error('Firestore Error: ', JSON.stringify(errInfo));
-  throw new Error(JSON.stringify(errInfo));
+  if (shouldThrow) {
+    throw new Error(JSON.stringify(errInfo));
+  }
 }

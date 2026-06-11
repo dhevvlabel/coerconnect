@@ -10,6 +10,8 @@ import {
 } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
 import { cn } from "../../lib/utils";
+import { LanguageToggle } from "./LanguageToggle";
+import { useLanguage } from "../../contexts/LanguageContext";
 
 interface SidebarProps {
   activeTab: string;
@@ -18,16 +20,17 @@ interface SidebarProps {
 
 export function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
   const { profile, logout } = useAuth();
+  const { t } = useLanguage();
 
   const menuItems = [
-    { id: 'home', label: 'Home', icon: Home },
-    { id: 'planner', label: 'Coer Space', icon: MapPin },
-    { id: 'mutuals', label: 'Mutual Match', icon: Users },
-    { id: 'settings', label: 'Settings', icon: Settings },
+    { id: 'home', label: t('home'), icon: Home },
+    { id: 'planner', label: t('planner'), icon: MapPin },
+    { id: 'mutuals', label: t('mutuals'), icon: Users },
+    { id: 'settings', label: t('settings'), icon: Settings },
   ];
 
   return (
-    <aside className="hidden lg:flex w-72 border-r border-accent/10 bg-surface flex-col h-screen fixed left-0 top-0 z-20">
+    <aside className="hidden lg:flex w-72 border-r border-accent/10 bg-surface flex-col h-screen fixed left-0 top-0 z-[100]">
       <div className="p-8 flex items-center gap-4">
         <div className="w-10 h-10 flex items-center justify-center">
           <img src="/src/assets/images/cortis_abstract_logo_1781202290639.jpg" alt="Cortis Logo" className="w-full h-full object-contain filter " />
@@ -57,6 +60,9 @@ export function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
             </button>
           );
         })}
+        <div className="pt-4 px-4">
+          <LanguageToggle />
+        </div>
       </nav>
 
       <div className="p-6">
@@ -80,7 +86,7 @@ export function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
           className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-bold text-red-500 hover:bg-red-500/5 transition-colors uppercase tracking-tight"
         >
           <LogOut className="w-4 h-4" />
-          Logout
+          {t('logout')}
         </button>
       </div>
     </aside>

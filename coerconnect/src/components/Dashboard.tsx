@@ -4,6 +4,7 @@ import { MobileNav } from "./layout/MobileNav";
 import { HomeFeed } from "./home/HomeFeed";
 import { CoerSpace } from "./planner/CoerSpace";
 import { useAuth } from "../hooks/useAuth";
+import { useLanguage } from "../contexts/LanguageContext";
 import { 
   db, 
   handleFirestoreError, 
@@ -24,6 +25,7 @@ import { Users } from "lucide-react";
 
 export function Dashboard() {
   const { user } = useAuth();
+  const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState('home');
   const [generatedPlan, setGeneratedPlan] = useState<ConcertPlan | null>(null);
   const [savedPlans, setSavedPlans] = useState<SavedPlan[]>([]);
@@ -44,7 +46,8 @@ export function Dashboard() {
       })) as SavedPlan[];
       setSavedPlans(plans.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()));
     }, (error) => {
-      handleFirestoreError(error, OperationType.LIST, "plans");
+       console.warn("Firestore plans listener error (likely rules):", error);
+       setSavedPlans([]);
     });
 
     return () => unsubscribe();
@@ -61,7 +64,7 @@ export function Dashboard() {
         planData: plan,
         createdAt: new Date().toISOString()
       });
-      alert("Plan archived in your vault!");
+      alert(t('planArchivedAlert') || "Plan archived in your vault!");
     } catch (error) {
       handleFirestoreError(error, OperationType.CREATE, "plans");
     }
@@ -104,14 +107,14 @@ export function Dashboard() {
         return (
           <div className="h-[60vh] flex flex-col items-center justify-center text-center">
             <Users className="w-16 h-16 text-accent mb-6 opacity-10" />
-            <h2 className="text-3xl font-black mb-4 uppercase tracking-tighter">MUTUAL MATCH</h2>
-            <p className="text-accent/50 max-w-sm font-bold uppercase tracking-widest text-xs">Feature coming soon! Connect with fellow Coers heading to the same venue.</p>
+            <h2 className="text-3xl font-black mb-4 uppercase tracking-tighter">{t('mutuals')}</h2>
+            <p className="text-accent/50 max-w-sm font-bold uppercase tracking-widest text-xs">{t('comingSoon') || 'Feature coming soon!'}</p>
           </div>
         );
       case 'settings':
         return (
           <div className="max-w-2xl px-4">
-            <h2 className="text-6xl font-black mb-12 uppercase tracking-tighter">SETTINGS</h2>
+            <h2 className="text-6xl font-black mb-12 uppercase tracking-tighter">{t('settings')}</h2>
              <div className="space-y-4">
                 <div className="p-10 rounded-[40px] bg-surface border border-accent/5 flex items-center justify-between shadow-2xl shadow-accent/5">
                    <div>

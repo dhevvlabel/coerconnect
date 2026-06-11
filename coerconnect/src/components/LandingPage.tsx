@@ -2,31 +2,29 @@ import React from 'react';
 import { motion } from "motion/react";
 import { useAuth } from "../hooks/useAuth";
 import { LogIn, Sparkles, Shield, Users } from "lucide-react";
+import { LanguageToggle } from "./layout/LanguageToggle";
+import { useLanguage } from "../contexts/LanguageContext";
 
 export function LandingPage() {
   const { signIn } = useAuth();
+  const { t } = useLanguage();
 
   return (
     <div className="min-h-screen bg-sage text-accent font-['Urbanist'] selection:bg-accent selection:text-white">
-      {/* Background patterns could be added here if needed, removing neon gradients */}
+      {/* Background patterns */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none opacity-20">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-accent opacity-[0.03] blur-[100px]" />
         <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-accent opacity-[0.03] blur-[100px]" />
       </div>
 
-      <nav className="relative z-10 max-w-7xl mx-auto px-6 py-8 flex justify-between items-center">
+      <nav className="relative z-[100] max-w-7xl mx-auto px-6 py-8 flex justify-between items-center">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-full bg-accent flex items-center justify-center">
             <span className="text-surface font-bold text-xl">C</span>
           </div>
           <span className="text-xl font-bold tracking-tight">CoerConnect</span>
         </div>
-        <button 
-          onClick={signIn}
-          className="px-6 py-2 rounded-full border border-accent/20 text-sm font-semibold hover:bg-accent hover:text-surface transition-all duration-300"
-        >
-          Login
-        </button>
+        <LanguageToggle />
       </nav>
 
       <main className="relative z-10 max-w-7xl mx-auto px-6 pt-20 pb-32">
@@ -36,15 +34,15 @@ export function LandingPage() {
           transition={{ duration: 0.8 }}
           className="max-w-3xl"
         >
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/5 border border-accent/10 text-accent text-xs font-bold mb-6">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/5 border border-accent/10 text-accent text-xs font-bold mb-6 uppercase">
             <Sparkles className="w-3 h-3" />
-            <span>EXCLUSIVE FOR COER FANDOM</span>
+            <span>{t('exclusiveFandom')}</span>
           </div>
           <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.9] mb-8 uppercase">
-            YOUR <span className="opacity-40">ULTIMATE</span> SAFE SPACE & CONCERT PLANNER.
+             {t('heroTitle').split('...')[0]} <span className="opacity-40">{t('heroTitle').includes('...') ? '...' : ''}</span>
           </h1>
           <p className="text-accent/60 text-lg md:text-xl max-w-xl mb-10 leading-relaxed font-medium">
-            Plan your next Cortis tour, find mutuals, and organize your concert gear in one premium minimalist space. 
+            {t('heroDescription')}
           </p>
           <button 
             onClick={signIn}
@@ -52,7 +50,7 @@ export function LandingPage() {
           >
             <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
             <LogIn className="w-5 h-5 relative z-10" />
-            <span className="relative z-10">Join CoerConnect with Google</span>
+            <span className="relative z-10">{t('joinWithGoogle')}</span>
           </button>
         </motion.div>
 
@@ -64,18 +62,18 @@ export function LandingPage() {
         >
           <FeatureCard 
             icon={<Sparkles className="w-6 h-6 text-accent" />}
-            title="Coer Space Assistant"
-            description="AI-powered concert planner that knows everything about Cortis lore and concert history."
+            title={t('aiAssistantTitle')}
+            description={t('aiAssistantDesc')}
           />
           <FeatureCard 
             icon={<Users className="w-6 h-6 text-accent" />}
-            title="Mutual Match"
-            description="Connect with other Coers heading to the same city and concert date."
+            title={t('mutualMatchTitle')}
+            description={t('mutualMatchDesc')}
           />
           <FeatureCard 
             icon={<Shield className="w-6 h-6 text-accent" />}
-            title="Secure Vault"
-            description="Your travel plans and personal fandom data are encrypted and protected."
+            title={t('secureVaultTitle')}
+            description={t('secureVaultDesc')}
           />
         </motion.div>
       </main>

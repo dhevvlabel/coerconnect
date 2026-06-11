@@ -26,35 +26,51 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      setUser(user);
-      if (user) {
-        try {
-          const userDoc = await getDoc(doc(db, 'users', user.uid));
-          if (userDoc.exists()) {
-            setProfile(userDoc.data() as UserProfile);
-          } else {
-            const newProfile: UserProfile = {
-              uid: user.uid,
-              displayName: user.displayName,
-              photoURL: user.photoURL,
-              email: user.email,
-              createdAt: new Date().toISOString(),
-            };
-            await setDoc(doc(db, 'users', user.uid), newProfile);
-            setProfile(newProfile);
+    const unsubscribe = onAuthStateChanged(auth, async (authUser) => {
+      try {
+        if (authUser) {
+          setUser(authUser);
+          try {
+            // Try fetching with a small timeout or just catch the "offline" error gracefully
+            const userDocRef = doc(db, 'users', authUser.uid);
+            const userDoc = await getDoc(userDocRef).catch(err => {
+              if (err.message?.includes('offline')) {
+                console.warn("Firestore is offline, using auth fallback");
+                return null;
+              }
+              throw err;
+            });
+
+            if (userDoc?.exists()) {
+              setProfile(userDoc.data() as UserProfile);
+            } else {
+              const newProfile: UserProfile = {
+                uid: authUser.uid,
+                displayName: authUser.displayName,
+                photoURL: authUser.photoURL,
+                email: authUser.email,
+                createdAt: new Date().toISOString(),
+              };
+              
+              // Only try to set if we have a chance
+              try {
+                await setDoc(userDocRef, newProfile);
+                setProfile(newProfile);
+              } catch (innerError) {
+                // If it fails (e.g. offline or rules), we still set the local profile state
+                setProfile(newProfile);
+              }
+            }
+          } catch (error) {
+            console.error("Auth profile fetch fatal error:", error);
           }
-        } catch (error) {
-          // If profile doc is missing or rules block it, handle gracefully
-          console.error("Auth profile error:", error);
-          if (error instanceof Error && error.message.includes('permission')) {
-             handleFirestoreError(error, OperationType.GET, `users/${user.uid}`);
-          }
+        } else {
+          setUser(null);
+          setProfile(null);
         }
-      } else {
-        setProfile(null);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     });
 
     return unsubscribe;
@@ -62,7 +78,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signIn = async () => {
     const provider = new GoogleAuthProvider();
-    await signInWithPopup(auth, provider);
+    try {
+      await signInWithPopup(auth, provider);
+    } catch (error: any) {
+      // Don't throw for common cancellation errors
+      if (
+        error.code === 'auth/cancelled-popup-request' ||
+        error.code === 'auth/popup-closed-by-user'
+      ) {
+        console.log("Sign-in cancelled or popup closed.");
+        return;
+      }
+      
+      if (error.code === 'auth/unauthorized-domain') {
+        const domain = window.location.hostname;
+        alert(`Domain "${domain}" is not authorized for sign-in. \n\nTo fix this:\n1. Go to Firebase Console\n2. Authentication > Settings > Authorized domains\n3. Add "${domain}" to the list.`);
+      } else {
+        console.error("Sign-in error:", error);
+        alert(`Authentication error: ${error.message}`);
+      }
+    }
   };
 
   const logout = async () => {

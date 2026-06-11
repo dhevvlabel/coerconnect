@@ -4,6 +4,7 @@ import { Sparkles, Loader2 } from "lucide-react";
 import { PlannerForm } from "./PlannerForm";
 import { PlanResult } from "./PlanResult";
 import { ConcertPlan } from "../../types";
+import { useLanguage } from "../../contexts/LanguageContext";
 
 interface CoerSpaceProps {
   generatedPlan: ConcertPlan | null;
@@ -14,6 +15,8 @@ interface CoerSpaceProps {
 }
 
 export function CoerSpace({ generatedPlan, setGeneratedPlan, isLoading, setIsLoading, savePlan }: CoerSpaceProps) {
+  const { t } = useLanguage();
+
   return (
     <div className="space-y-12 pb-20">
       <AnimatePresence mode="wait">
@@ -30,9 +33,9 @@ export function CoerSpace({ generatedPlan, setGeneratedPlan, isLoading, setIsLoa
                  <Sparkles className="w-4 h-4 text-accent" />
                  <span className="text-[10px] font-black uppercase tracking-[0.3em]">AI CONCERT ENGINE</span>
               </div>
-              <h2 className="text-6xl font-black mb-4 tracking-tighter uppercase">COER SPACE</h2>
+              <h2 className="text-6xl font-black mb-4 tracking-tighter uppercase">{t('planner')}</h2>
               <p className="text-accent/40 font-bold uppercase tracking-widest text-sm max-w-md mx-auto">
-                Your high-end curated journey through the Cortis world begins here.
+                {t('journeyStarts')}
               </p>
             </header>
             <PlannerForm onPlanGenerated={setGeneratedPlan} isGenerating={isLoading} setIsGenerating={setIsLoading} />
@@ -47,9 +50,9 @@ export function CoerSpace({ generatedPlan, setGeneratedPlan, isLoading, setIsLoa
           >
             <div className="flex flex-col md:flex-row justify-between items-center bg-surface p-10 rounded-[48px] border border-accent/5 shadow-2xl shadow-accent/5 gap-8">
               <div>
-                <h3 className="text-4xl font-black uppercase tracking-tighter">PREMIUM JOURNEY</h3>
+                <h3 className="text-4xl font-black uppercase tracking-tighter">{t('premiumJourney')}</h3>
                 <p className="text-accent/30 text-[10px] font-black uppercase tracking-[0.4em] mt-3">
-                  Algorithmically curated for {generatedPlan.concert_summary.target_location}
+                  {t('algocuration')} {generatedPlan.concert_summary.target_location}
                 </p>
               </div>
               <div className="flex gap-4 w-full md:w-auto">
@@ -57,13 +60,13 @@ export function CoerSpace({ generatedPlan, setGeneratedPlan, isLoading, setIsLoa
                   onClick={() => setGeneratedPlan(null)}
                   className="flex-1 md:flex-none px-10 py-4 rounded-2xl text-xs font-black border border-accent/10 hover:bg-accent/5 transition-all uppercase tracking-widest"
                 >
-                  Edit Input
+                  {t('editInput')}
                 </button>
                 <button 
                   onClick={() => savePlan(generatedPlan.concert_summary.target_location, 0, generatedPlan.concert_summary.estimated_days, generatedPlan)}
                   className="flex-1 md:flex-none px-10 py-4 rounded-2xl text-xs font-black bg-accent text-surface hover:opacity-90 transition-all uppercase tracking-widest shadow-2xl shadow-accent/20"
                 >
-                  Archive Plan
+                  {t('archivePlan')}
                 </button>
               </div>
             </div>

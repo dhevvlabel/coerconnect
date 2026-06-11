@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { ConcertPlan } from "../../types";
 import { Sparkles, Loader2, MapPin, Wallet, Calendar } from "lucide-react";
 import { cn } from "../../lib/utils";
+import { useLanguage } from "../../contexts/LanguageContext";
 
 interface PlannerFormProps {
   onPlanGenerated: (plan: ConcertPlan) => void;
@@ -10,6 +11,7 @@ interface PlannerFormProps {
 }
 
 export function PlannerForm({ onPlanGenerated, isGenerating, setIsGenerating }: PlannerFormProps) {
+  const { t } = useLanguage();
   const [city, setCity] = useState("Incheon");
   const [budget, setBudget] = useState("5000000");
   const [duration, setDuration] = useState(3);
@@ -43,7 +45,7 @@ export function PlannerForm({ onPlanGenerated, isGenerating, setIsGenerating }: 
     <form onSubmit={handleSubmit} className="space-y-12 bg-surface border border-accent/5 p-12 rounded-[48px] shadow-2xl shadow-accent/5">
       <div className="space-y-8">
         <div>
-          <label className="text-[10px] font-black uppercase tracking-[0.4em] text-accent/40 mb-4 block">Target Location</label>
+          <label className="text-[10px] font-black uppercase tracking-[0.4em] text-accent/40 mb-4 block">{t('targetLocation')}</label>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {cities.map((c) => (
               <button
@@ -66,7 +68,7 @@ export function PlannerForm({ onPlanGenerated, isGenerating, setIsGenerating }: 
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="relative group">
-            <label className="text-[10px] font-black uppercase tracking-[0.4em] text-accent/40 mb-4 block">Budget (IDR)</label>
+            <label className="text-[10px] font-black uppercase tracking-[0.4em] text-accent/40 mb-4 block">{t('budgetLabel')}</label>
             <div className="relative">
               <input
                 type="number"
@@ -80,7 +82,7 @@ export function PlannerForm({ onPlanGenerated, isGenerating, setIsGenerating }: 
           </div>
 
           <div className="relative group">
-            <label className="text-[10px] font-black uppercase tracking-[0.4em] text-accent/40 mb-4 block">Duration (Days)</label>
+            <label className="text-[10px] font-black uppercase tracking-[0.4em] text-accent/40 mb-4 block">{t('durationLabel')}</label>
             <div className="relative">
               <input
                 type="number"
@@ -103,12 +105,12 @@ export function PlannerForm({ onPlanGenerated, isGenerating, setIsGenerating }: 
         {isGenerating ? (
           <>
             <Loader2 className="w-6 h-6 animate-spin" />
-            <span>Summoning Assistant...</span>
+            <span>{t('summoningAssistant')}</span>
           </>
         ) : (
           <>
             <Sparkles className="w-6 h-6 group-hover:rotate-12 transition-transform" />
-            <span>GENERATE MY PLAN</span>
+            <span>{t('generateMyPlan')}</span>
           </>
         )}
       </button>
