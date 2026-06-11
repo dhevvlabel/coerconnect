@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Urbanist", ui-sans-serif, system-ui, sans-serif;
+  
+  --color-sage: #B0B9B0;
+  --color-accent: #1A1A1A;
+  --color-surface: #FFFFFF;
+}

@@ -1,0 +1,6 @@
+{
+  "name": "CoerConnect",
+  "description": "A dedicated social hub and utility platform for the Coer fandom, featuring an AI-powered concert planner and event kit manager.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
