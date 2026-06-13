@@ -34,11 +34,11 @@ export function LanguageToggle({ mobile = false }: { mobile?: boolean }) {
 
   if (mobile) {
     return (
-      <div className="relative" ref={containerRef}>
+      <div className="relative z-[5000]" ref={containerRef}>
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
-          className="relative flex flex-col items-center justify-center p-2 active:scale-90 transition-transform cursor-pointer z-[100]"
+          className="relative flex flex-col items-center justify-center p-2 active:scale-90 transition-transform cursor-pointer z-[5001]"
         >
           <div className={cn(
             "w-12 h-8 rounded-full flex items-center justify-center transition-all duration-300",
@@ -60,7 +60,7 @@ export function LanguageToggle({ mobile = false }: { mobile?: boolean }) {
                 initial={{ opacity: 0, y: 10, scale: 0.9 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 10, scale: 0.9 }}
-                className="absolute bottom-full left-1/2 -translate-x-1/2 mb-6 w-48 bg-surface border-2 border-accent/20 rounded-[32px] shadow-[0_30px_60px_rgba(0,0,0,0.5)] z-[1000] overflow-hidden p-2"
+                className="absolute bottom-full left-1/2 -translate-x-1/2 mb-6 w-48 bg-surface border-2 border-accent/20 rounded-[32px] shadow-[0_30px_60px_rgba(0,0,0,0.5)] z-[9999] overflow-hidden p-2"
               >
                 <div className="space-y-1">
                   {languages.map((lang) => (
@@ -88,11 +88,11 @@ export function LanguageToggle({ mobile = false }: { mobile?: boolean }) {
   }
 
   return (
-    <div className="relative" ref={containerRef}>
+    <div className="relative z-[5000]" ref={containerRef}>
       <button 
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-3 px-6 py-3 rounded-2xl border-2 border-accent/10 bg-surface hover:border-accent/30 transition-all duration-300 uppercase tracking-widest text-[10px] font-black text-accent/80 active:scale-95 cursor-pointer z-[100]"
+        className="flex items-center gap-3 px-6 py-3 rounded-2xl border-2 border-accent/10 bg-surface hover:border-accent/30 transition-all duration-300 uppercase tracking-widest text-[10px] font-black text-accent/80 active:scale-95 cursor-pointer z-[5001]"
       >
         <Globe className="w-4 h-4" />
         <span>{language}</span>
@@ -105,7 +105,7 @@ export function LanguageToggle({ mobile = false }: { mobile?: boolean }) {
             initial={{ opacity: 0, y: 10, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.9 }}
-            className="absolute right-0 mt-4 w-52 bg-surface border-2 border-accent/20 rounded-[36px] shadow-[0_40px_80px_rgba(0,0,0,0.4)] z-[1000] overflow-hidden p-2"
+            className="absolute right-0 mt-4 w-52 bg-surface border-2 border-accent/20 rounded-[36px] shadow-[0_40px_80px_rgba(0,0,0,0.4)] z-[9999] overflow-hidden p-2"
           >
             <div className="space-y-1">
               {languages.map((lang) => (

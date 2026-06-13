@@ -5,6 +5,7 @@ type Language = 'KR' | 'ID' | 'EN';
 interface LanguageContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
+  isChangingLanguage: boolean;
   t: (key: string) => string;
 }
 
@@ -31,11 +32,11 @@ const translations: Record<Language, Record<string, string>> = {
     location: '위치',
     days: '일수',
     estimatedTotal: '예상 총 비용',
-    heroTitle: '지갑을 내려놔...',
+    heroTitle: 'ONE SPACE FOR EVERY COER.',
     heroSubtitle: '코어(Coer)를 위한 최고의 콘서트 플래너',
     startPlanning: '계획 시작하기',
     exclusiveFandom: '코어 팬덤 전용',
-    heroDescription: '한 프리미엄 공간에서 다음 Cortis 투어를 계획하고, 뮤추얼을 찾고, 콘서트 장비를 정리하세요.',
+    heroDescription: '투어 계획을 통합하고, 새로운 뮤추얼을 찾고, 코어 팬덤을 위해 독점적으로 디자인된 하나의 미니멀한 공간에서 모든 Cortis 콘서트 니즈를 관리하세요.',
     joinWithGoogle: 'Google로 코어커넥트 가입하기',
     aiAssistantTitle: '코어 스페이스 어시스턴트',
     aiAssistantDesc: 'Cortis 세계관과 콘서트 히스토리를 모두 알고 있는 AI 기반 콘서트 플래너.',
@@ -62,12 +63,50 @@ const translations: Record<Language, Record<string, string>> = {
     editInput: '정보 수정',
     archivePlan: '계획 보관하기',
     targetLocation: '목적지 설정',
-    budgetLabel: '예산 (KRW)',
+    budgetLabel: '예산',
     durationLabel: '기간 (일)',
     summoningAssistant: '어시스턴트 소환 중...',
     generateMyPlan: '계획 생성하기',
     totalBudget: '총 예산',
-    day: '일차'
+    day: '일차',
+    changingLanguage: '시스템 언어를 변경하는 중...',
+    selectLanguage: '언어 선택',
+    profileAndAccount: '프로필 및 계정',
+    editProfile: '프로필 수정',
+    displayName: '표시 이름',
+    username: '사용자 이름',
+    bio: '소개',
+    saveChanges: '변경사항 저장',
+    privacy: '개인정보 보호',
+    publicProfile: '공개 프로필',
+    sharePlans: 'Coer Space 계획 공유',
+    systemAndLanguage: '시스템 및 언어',
+    clearCache: '앱 캐시 삭제',
+    accountSession: '계정 세션',
+    logoutAccount: '로그아웃',
+    cancel: '취소',
+    confirmDeleteTitle: '이 계획을 정말 삭제하시겠습니까?',
+    deleteAction: '삭제',
+    reportBug: '버그/문제 신고',
+    privacyPolicy: '개인정보 보호정책 및 약관',
+    reportBugTitle: '버그 신고',
+    reportBugDesc: '문제가 발생했나요? dffaseptember@gmail.com으로 이메일을 보내주세요.',
+    privacyTitle: '개인정보 보호정책',
+    privacyDesc: 'CoerConnect는 귀하의 데이터를 존중합니다. 당사는 귀하의 콘서트 계획과 개인 정보를 제3자에게 판매하지 않으며, 암호화를 통해 안전하게 보호합니다.',
+    close: '닫기',
+    whatIsCoerSpace: 'Coer Space란 무엇인가요?',
+    coerSpaceExplanation: '코어 스페이스는 목적지에서의 교통, 숙소 예상 구성, 일일 여행 일정까지 Cortis 콘서트 전반의 여행 계획(itinerary)을 자동으로 작성할 수 있도록 특별 설계된 스마트 어시스턴트입니다.',
+    dataProtected: '데이터 보호됨',
+    privacyExplanation: '귀하의 예산, 위치, 여행 기간 정보는 안전하게 암호화됩니다. 본 여행 계획은 비공개로 유지되며 귀하의 허가 없이는 커뮤니티에 공유되지 않습니다.',
+    originLabel: '출발 도시 및 국가',
+    departureDateLabel: '출발일',
+    returnDateLabel: '귀국일',
+    selectConcertLabel: 'Cortis 콘서트 선택',
+    budgetWarning: '예산 부족. 국가 간 여행(왕복 항공권, 숙박, 콘서트 티켓)의 최소 예상 비용은 약 인도네시아 출발 Rp12,000,000 - Rp15,000,000(1,200,000원 - 1,500,000원)입니다. 안전한 일정을 생성할 수 있도록 예산을 다시 조정해 주세요.',
+    wizardIntroTitle: '2026 CORTIS 투어 <PUT YOUR PHONE DOWN>를 매우 상세하게 계획하세요',
+    next: '다음',
+    back: '이전',
+    start: '시작하기'
   },
   ID: {
     home: 'Beranda',
@@ -89,11 +128,11 @@ const translations: Record<Language, Record<string, string>> = {
     location: 'Lokasi',
     days: 'Jumlah Hari',
     estimatedTotal: 'Total Estimasi',
-    heroTitle: 'Put your phone down...',
+    heroTitle: 'ONE SPACE FOR EVERY COER.',
     heroSubtitle: 'Asisten rencana konser terbaik untuk Coer',
     startPlanning: 'Mulai Merencana',
     exclusiveFandom: 'EKSKLUSIF UNTUK FANDOM COER',
-    heroDescription: 'Rencanakan tur Cortis berikutnya, cari mutual, dan atur perlengkapan konser Anda dalam satu ruang minimalis premium.',
+    heroDescription: 'Satukan rencana tur, temukan mutual baru, dan kelola seluruh kebutuhan konser Cortis Anda dalam satu ruang minimalis yang dirancang eksklusif untuk fandom Coer.',
     joinWithGoogle: 'Bergabung dengan Google',
     aiAssistantTitle: 'Coer Space Assistant',
     aiAssistantDesc: 'Perencana konser berbasis AI yang tahu segalanya tentang lore Cortis dan sejarah konser.',
@@ -120,12 +159,50 @@ const translations: Record<Language, Record<string, string>> = {
     editInput: 'Edit Input',
     archivePlan: 'Simpan Rencana',
     targetLocation: 'Lokasi Tujuan',
-    budgetLabel: 'Anggaran (IDR)',
+    budgetLabel: 'Anggaran',
     durationLabel: 'Durasi (Hari)',
     summoningAssistant: 'Memanggil Assistant...',
     generateMyPlan: 'BUAT RENCANAKU',
     totalBudget: 'Total Anggaran',
-    day: 'Hari'
+    day: 'Hari',
+    changingLanguage: 'Sistem sedang mengubah bahasa...',
+    selectLanguage: 'Pilih Bahasa',
+    profileAndAccount: 'PROFIL & AKUN',
+    editProfile: 'Edit Profil',
+    displayName: 'Nama Tampilan',
+    username: 'Username',
+    bio: 'Bio',
+    saveChanges: 'Simpan Perubahan',
+    privacy: 'PRIVASI',
+    publicProfile: 'Profil Publik',
+    sharePlans: 'Bagikan Rencana Coer Space',
+    systemAndLanguage: 'SISTEM & BAHASA',
+    clearCache: 'Hapus Cache Aplikasi',
+    accountSession: 'SESI AKUN',
+    logoutAccount: 'Keluar Akun',
+    cancel: 'Batal',
+    confirmDeleteTitle: 'Yakin ingin menghapus rencana ini?',
+    deleteAction: 'Hapus',
+    reportBug: 'Laporkan Bug / Masalah',
+    privacyPolicy: 'Kebijakan Privasi & Ketentuan',
+    reportBugTitle: 'Laporkan Masalah',
+    reportBugDesc: 'Ada kendala? Kirimkan email ke dffaseptember@gmail.com dengan detail masalah Anda.',
+    privacyTitle: 'Kebijakan Privasi',
+    privacyDesc: 'CoerConnect sangat menghargai privasi Anda. Kami tidak menjual data rencana konser atau informasi pribadi Anda ke pihak ketiga. Semua data disimpan dengan enkripsi aman.',
+    close: 'Tutup',
+    whatIsCoerSpace: 'Apa itu Coer Space?',
+    coerSpaceExplanation: 'Coer Space adalah asisten cerdas yang dirancang khusus untuk membantu Anda menyusun seluruh rangkaian rencana perjalanan (itinerary) konser Cortis secara otomatis, mulai dari estimasi transportasi, akomodasi, hingga jadwal harian di kota tujuan.',
+    dataProtected: 'Data Anda Dilindungi',
+    privacyExplanation: 'Seluruh informasi anggaran, lokasi, dan durasi perjalanan Anda dienkripsi dengan aman. Rencana ini bersifat privat dan tidak akan dibagikan ke komunitas kecuali atas izin Anda.',
+    originLabel: 'KOTA & NEGARA ASAL',
+    departureDateLabel: 'TANGGAL KEBERANGKATAN',
+    returnDateLabel: 'TANGGAL KEPULANGAN',
+    selectConcertLabel: 'PILIH KONSER CORTIS',
+    budgetWarning: 'Anggaraan Kurang Memadai. Estimasi biaya minimum perjalanan antarnegara (Tiket pesawat PP, Penginapan, & Tiket Konser) berkisar antara Rp12.000.000 - Rp15.000.000. Mohon sesuaikan kembali anggaran Anda agar sistem dapat membuat itinerary yang aman.',
+    wizardIntroTitle: 'Rencanakan konser 2026 CORTIS TOUR <PUT YOUR PHONE DOWN> dengan sangat terperinci',
+    next: 'Selanjutnya',
+    back: 'Kembali',
+    start: 'Mulai'
   },
   EN: {
     home: 'Home',
@@ -147,11 +224,11 @@ const translations: Record<Language, Record<string, string>> = {
     location: 'Location',
     days: 'Total Days',
     estimatedTotal: 'Estimated Total',
-    heroTitle: 'Put your phone down...',
+    heroTitle: 'ONE SPACE FOR EVERY COER.',
     heroSubtitle: 'The ultimate concert planning assistant for Coer',
     startPlanning: 'Start Planning',
     exclusiveFandom: 'EXCLUSIVE FOR COER FANDOM',
-    heroDescription: 'Plan your next Cortis tour, find mutuals, and organize your concert gear in one premium minimalist space.',
+    heroDescription: 'Unify your tour plans, find new mutuals, and manage all your Cortis concert needs in one minimalist space designed exclusively for the Coer fandom.',
     joinWithGoogle: 'Join CoerConnect with Google',
     aiAssistantTitle: 'Coer Space Assistant',
     aiAssistantDesc: 'AI-powered concert planner that knows everything about Cortis lore and concert history.',
@@ -178,24 +255,72 @@ const translations: Record<Language, Record<string, string>> = {
     editInput: 'Edit Input',
     archivePlan: 'Archive Plan',
     targetLocation: 'Target Location',
-    budgetLabel: 'Budget (IDR)',
+    budgetLabel: 'Budget',
     durationLabel: 'Duration (Days)',
     summoningAssistant: 'Summoning Assistant...',
     generateMyPlan: 'GENERATE MY PLAN',
     totalBudget: 'Total Budget',
-    day: 'Day'
+    day: 'Day',
+    changingLanguage: 'Applying language settings...',
+    selectLanguage: 'Select Language',
+    profileAndAccount: 'PROFILE & ACCOUNT',
+    editProfile: 'Edit Profile',
+    displayName: 'Display Name',
+    username: 'Username',
+    bio: 'Bio',
+    saveChanges: 'Save Changes',
+    privacy: 'PRIVACY',
+    publicProfile: 'Public Profile',
+    sharePlans: 'Share Coer Space Plans',
+    systemAndLanguage: 'SYSTEM & LANGUAGE',
+    clearCache: 'Clear App Cache',
+    accountSession: 'ACCOUNT SESSION',
+    logoutAccount: 'Log Out',
+    cancel: 'Cancel',
+    confirmDeleteTitle: 'Are you sure you want to delete this plan?',
+    deleteAction: 'Delete',
+    reportBug: 'Report Bug / Issue',
+    privacyPolicy: 'Privacy Policy & Terms',
+    reportBugTitle: 'Report an Issue',
+    reportBugDesc: 'Found a bug? Send us an email at dffaseptember@gmail.com with the details.',
+    privacyTitle: 'Privacy Policy',
+    privacyDesc: 'CoerConnect values your privacy. We do not sell your concert plans or personal information to third parties. All data is kept secure with industry-standard encryption.',
+    close: 'Close',
+    whatIsCoerSpace: 'What is Coer Space?',
+    coerSpaceExplanation: 'Coer Space is an intelligent assistant designed specifically to help you automatically organize your entire Cortis concert travel itinerary, spanning transportation estimates, accommodation, and daily schedules in your target city.',
+    dataProtected: 'Your Data is Protected',
+    privacyExplanation: 'All information regarding your budget, location, and trip duration is securely encrypted. This plan remains private and will not be shared with the community without your explicit permission.',
+    originLabel: 'ORIGIN CITY & COUNTRY',
+    departureDateLabel: 'DEPARTURE DATE',
+    returnDateLabel: 'RETURN DATE',
+    selectConcertLabel: 'SELECT CORTIS CONCERT',
+    budgetWarning: 'Insufficient Budget. The minimum estimated budget for international travel (round-trip flight, accommodation, & concert ticket) is between Rp12,000,000 - Rp15,000,000. Please adjust your budget so the system can generate a safe itinerary.',
+    wizardIntroTitle: 'Plan the 2026 CORTIS TOUR <PUT YOUR PHONE DOWN> in great detail',
+    next: 'Next',
+    back: 'Back',
+    start: 'Start'
   }
 };
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguage] = useState<Language>('ID');
+  const [language, setLanguageState] = useState<Language>('ID');
+  const [isChangingLanguage, setIsChangingLanguage] = useState(false);
+
+  const setLanguage = (newLang: Language) => {
+    if (newLang === language) return;
+    setIsChangingLanguage(true);
+    setTimeout(() => {
+      setLanguageState(newLang);
+      setIsChangingLanguage(false);
+    }, 1200);
+  };
 
   const t = (key: string) => {
     return translations[language][key] || key;
   };
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, t }}>
+    <LanguageContext.Provider value={{ language, setLanguage, isChangingLanguage, t }}>
       {children}
     </LanguageContext.Provider>
   );

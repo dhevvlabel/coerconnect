@@ -1,9 +1,9 @@
 import React from 'react';
 import { motion, AnimatePresence } from "motion/react";
-import { Sparkles, Loader2 } from "lucide-react";
+import { Sparkles, Loader2, ShieldCheck } from "lucide-react";
 import { PlannerForm } from "./PlannerForm";
 import { PlanResult } from "./PlanResult";
-import { ConcertPlan } from "../../types";
+import { ConcertPlan, SavedPlan } from "../../types";
 import { useLanguage } from "../../contexts/LanguageContext";
 
 interface CoerSpaceProps {
@@ -12,9 +12,10 @@ interface CoerSpaceProps {
   isLoading: boolean;
   setIsLoading: (val: boolean) => void;
   savePlan: (city: string, budget: number, duration: number, plan: ConcertPlan) => Promise<void>;
+  editingPlan: SavedPlan | null;
 }
 
-export function CoerSpace({ generatedPlan, setGeneratedPlan, isLoading, setIsLoading, savePlan }: CoerSpaceProps) {
+export function CoerSpace({ generatedPlan, setGeneratedPlan, isLoading, setIsLoading, savePlan, editingPlan }: CoerSpaceProps) {
   const { t } = useLanguage();
 
   return (
@@ -29,16 +30,47 @@ export function CoerSpace({ generatedPlan, setGeneratedPlan, isLoading, setIsLoa
             className="max-w-2xl mx-auto"
           >
             <header className="mb-12 text-center">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/5 border border-accent/10 mb-8">
-                 <Sparkles className="w-4 h-4 text-accent" />
-                 <span className="text-[10px] font-black uppercase tracking-[0.3em]">AI CONCERT ENGINE</span>
+              <div className="inline-flex items-center justify-center px-4 py-2 rounded-full bg-accent/5 border border-accent/10 mb-8">
+                 <span className="text-[10px] font-black uppercase tracking-[0.3em] text-center">COER ENGINE ASSISTANT</span>
               </div>
               <h2 className="text-6xl font-black mb-4 tracking-tighter uppercase">{t('planner')}</h2>
               <p className="text-accent/40 font-bold uppercase tracking-widest text-sm max-w-md mx-auto">
                 {t('journeyStarts')}
               </p>
             </header>
-            <PlannerForm onPlanGenerated={setGeneratedPlan} isGenerating={isLoading} setIsGenerating={setIsLoading} />
+
+            {/* SECTION EDUKASI & FAQ */}
+            <div className="bg-surface border border-accent/5 p-8 md:p-10 rounded-[32px] shadow-2xl shadow-accent/5 mb-12">
+              <h3 className="text-xl font-black uppercase tracking-tight mb-4 flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+                {t('whatIsCoerSpace')}
+              </h3>
+              <p className="text-sm text-accent/70 font-medium leading-relaxed">
+                {t('coerSpaceExplanation')}
+              </p>
+            </div>
+
+            <PlannerForm 
+              onPlanGenerated={setGeneratedPlan} 
+              isGenerating={isLoading} 
+              setIsGenerating={setIsLoading} 
+              editingPlan={editingPlan}
+            />
+
+            {/* SECTION PRIVASI & ARAHAN JELAS */}
+            <div className="bg-accent/5 border border-accent/10 p-6 rounded-2xl flex items-start gap-4 mt-12">
+              <div className="p-3 bg-accent/5 text-accent rounded-xl flex-shrink-0">
+                <ShieldCheck className="w-5 h-5" />
+              </div>
+              <div>
+                <h4 className="text-xs font-black uppercase tracking-wider mb-1 flex items-center gap-2">
+                  {t('dataProtected')}
+                </h4>
+                <p className="text-xs text-accent/60 font-semibold leading-relaxed">
+                  {t('privacyExplanation')}
+                </p>
+              </div>
+            </div>
           </motion.div>
         ) : (
           <motion.div

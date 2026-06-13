@@ -1,49 +1,103 @@
 import React from 'react';
 import { motion } from "motion/react";
 import { useAuth } from "../hooks/useAuth";
-import { LogIn, Sparkles, Shield, Users } from "lucide-react";
-import { LanguageToggle } from "./layout/LanguageToggle";
+import { LogIn, Sparkles, Shield, Users, Globe } from "lucide-react";
 import { useLanguage } from "../contexts/LanguageContext";
 
 export function LandingPage() {
   const { signIn } = useAuth();
-  const { t } = useLanguage();
+  const { t, language, setLanguage } = useLanguage();
 
   return (
-    <div className="min-h-screen bg-sage text-accent font-['Urbanist'] selection:bg-accent selection:text-white">
+    <div className="min-h-screen bg-transparent text-accent font-sans selection:bg-accent selection:text-white relative z-10">
+      {/* Hardware-accelerated, layered overlay fixed background */}
+      <div className="fixed inset-0 z-[-10] overflow-hidden pointer-events-none" id="landing-background-container">
+        <img 
+          src="https://cdn.phototourl.com/free/2026-06-12-215bc526-5026-4c45-bd4b-afe3ac1cd667.jpg"
+          alt="Premium Background"
+          className="landing-optimized-bg"
+          referrerPolicy="no-referrer"
+          onError={(e) => {
+            // Gracefully hide the background container to reveal the default solid sage-green fallback background of body
+            const container = document.getElementById("landing-background-container");
+            if (container) {
+              container.style.display = "none";
+            }
+          }}
+        />
+        {/* Dark transparent overlay */}
+        <div className="absolute inset-0 bg-black/15" />
+      </div>
+
       {/* Background patterns */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none opacity-20">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-accent opacity-[0.03] blur-[100px]" />
         <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-accent opacity-[0.03] blur-[100px]" />
       </div>
 
-      <nav className="relative z-[100] max-w-7xl mx-auto px-6 py-8 flex justify-between items-center">
+      <nav className="relative z-[2000] max-w-7xl mx-auto px-6 pt-5 pb-3 flex justify-between items-center">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-full bg-accent flex items-center justify-center">
             <span className="text-surface font-bold text-xl">C</span>
           </div>
           <span className="text-xl font-bold tracking-tight">CoerConnect</span>
         </div>
-        <LanguageToggle />
+
+        <div className="flex items-center gap-4">
+          <div className="relative group">
+            <Globe className="absolute left-4 top-1/2 -translate-y-1/2 w-3 h-3 text-accent/40 group-focus-within:text-accent transition-colors" />
+            <select 
+              value={language}
+              onChange={(e) => setLanguage(e.target.value as any)}
+              className="bg-accent/5 border border-accent/10 rounded-full pl-9 pr-6 py-2.5 text-[10px] font-black uppercase tracking-widest focus:outline-none focus:border-accent/40 appearance-none cursor-pointer transition-all hover:bg-accent/10"
+            >
+              <option value="ID">ID 🇮🇩</option>
+              <option value="KR">KR 🇰🇷</option>
+              <option value="EN">EN 🇺🇸</option>
+            </select>
+          </div>
+        </div>
       </nav>
 
-      <main className="relative z-10 max-w-7xl mx-auto px-6 pt-20 pb-32">
+      <main className="relative z-10 max-w-7xl mx-auto px-6 pt-4 md:pt-8 pb-16">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className="max-w-3xl"
         >
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/5 border border-accent/10 text-accent text-xs font-bold mb-6 uppercase">
-            <Sparkles className="w-3 h-3" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/5 border border-accent/10 text-accent text-xs font-bold mb-3 uppercase">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              className="w-3.5 h-3.5 flex-shrink-0"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M4 18c3-8 11-8 16-4" />
+              <circle cx="4" cy="18" r="2.2" fill="currentColor" />
+              <circle cx="11" cy="10" r="2.2" fill="currentColor" />
+              <circle cx="20" cy="14" r="2.2" fill="currentColor" />
+            </svg>
             <span>{t('exclusiveFandom')}</span>
           </div>
-          <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.9] mb-8 uppercase">
+          <h1 className="text-5xl md:text-8xl font-black tracking-tighter leading-[0.9] mb-4 uppercase">
              {t('heroTitle').split('...')[0]} <span className="opacity-40">{t('heroTitle').includes('...') ? '...' : ''}</span>
           </h1>
-          <p className="text-accent/60 text-lg md:text-xl max-w-xl mb-10 leading-relaxed font-medium">
-            {t('heroDescription')}
-          </p>
+          <div 
+            className="max-w-xl p-4 rounded-xl border border-white/30 shadow-lg mb-6"
+            style={{ 
+              backgroundColor: 'rgba(255, 255, 255, 0.7)', 
+              backdropFilter: 'blur(8px)',
+              WebkitBackdropFilter: 'blur(8px)' 
+            }}
+          >
+            <p className="text-gray-900 text-base md:text-lg leading-relaxed font-semibold">
+              {t('heroDescription')}
+            </p>
+          </div>
           <button 
             onClick={signIn}
             className="group relative inline-flex items-center gap-3 px-8 py-4 bg-accent text-surface font-bold rounded-2xl overflow-hidden active:scale-95 transition-transform shadow-2xl shadow-accent/20"
@@ -58,7 +112,7 @@ export function LandingPage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5, duration: 1 }}
-          className="mt-32 grid grid-cols-1 md:grid-cols-3 gap-8"
+          className="mt-16 md:mt-24 grid grid-cols-1 md:grid-cols-3 gap-8"
         >
           <FeatureCard 
             icon={<Sparkles className="w-6 h-6 text-accent" />}

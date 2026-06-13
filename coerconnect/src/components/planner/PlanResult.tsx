@@ -42,7 +42,7 @@ export function PlanResult({ plan }: PlanResultProps) {
             </h4>
             <div className="space-y-12 relative before:absolute before:left-[19px] before:top-4 before:bottom-0 before:w-px before:bg-accent/10">
               {itinerary.map((day) => (
-                <div key={day.day} className="relative pl-14">
+                <div key={day.day} className="relative pl-12">
                   <div className="absolute left-0 top-0 w-10 h-10 rounded-2xl bg-accent flex items-center justify-center font-black text-surface z-10 shadow-2xl shadow-accent/20 text-lg uppercase">
                     {day.day}
                   </div>

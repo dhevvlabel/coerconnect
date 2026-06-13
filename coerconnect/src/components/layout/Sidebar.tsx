@@ -10,7 +10,6 @@ import {
 } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
 import { cn } from "../../lib/utils";
-import { LanguageToggle } from "./LanguageToggle";
 import { useLanguage } from "../../contexts/LanguageContext";
 
 interface SidebarProps {
@@ -32,8 +31,8 @@ export function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
   return (
     <aside className="hidden lg:flex w-72 border-r border-accent/10 bg-surface flex-col h-screen fixed left-0 top-0 z-[100]">
       <div className="p-8 flex items-center gap-4">
-        <div className="w-10 h-10 flex items-center justify-center">
-          <img src="/src/assets/images/cortis_abstract_logo_1781202290639.jpg" alt="Cortis Logo" className="w-full h-full object-contain filter " />
+        <div className="w-10 h-10 rounded-full bg-accent flex items-center justify-center shrink-0">
+          <span className="text-surface font-bold text-xl">C</span>
         </div>
         <span className="text-xl font-black tracking-tighter text-accent uppercase">CoerConnect</span>
       </div>
@@ -60,9 +59,6 @@ export function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
             </button>
           );
         })}
-        <div className="pt-4 px-4">
-          <LanguageToggle />
-        </div>
       </nav>
 
       <div className="p-6">

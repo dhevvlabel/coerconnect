@@ -1,11 +1,11 @@
 import React from 'react';
 import { 
+  Home,
   MapPin, 
   Users, 
   Settings 
 } from "lucide-react";
 import { cn } from "../../lib/utils";
-import { LanguageToggle } from './LanguageToggle';
 import { useLanguage } from "../../contexts/LanguageContext";
 
 interface MobileNavProps {
@@ -16,6 +16,7 @@ interface MobileNavProps {
 export function MobileNav({ activeTab, setActiveTab }: MobileNavProps) {
   const { t } = useLanguage();
   const menuItems = [
+    { id: 'home', label: t('home'), icon: Home },
     { id: 'planner', label: t('planner'), icon: MapPin },
     { id: 'mutuals', label: t('mutuals'), icon: Users },
     { id: 'settings', label: t('settings'), icon: Settings },
@@ -23,7 +24,6 @@ export function MobileNav({ activeTab, setActiveTab }: MobileNavProps) {
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 h-20 bg-surface/80 backdrop-blur-xl border-t border-accent/5 flex items-center justify-around px-6 z-[100] lg:hidden text-accent">
-      <LanguageToggle mobile />
       {menuItems.map((item) => {
         const isActive = activeTab === item.id;
         const Icon = item.icon;

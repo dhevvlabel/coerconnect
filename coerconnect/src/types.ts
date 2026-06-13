@@ -3,6 +3,8 @@ export interface UserProfile {
   displayName: string | null;
   photoURL: string | null;
   email: string | null;
+  username?: string;
+  bio?: string;
   createdAt: string;
 }
 
@@ -46,6 +48,13 @@ export interface ConcertPlan {
   itinerary: Itinerary[];
   dresscode_recommendations: DresscodeRecommendations;
   concert_kit_checklist: ConcertKitItem[];
+  inputs?: {
+    selectedConcert: string;
+    origin: string;
+    budget: string;
+    departDate: string;
+    returnDate: string;
+  };
 }
 
 export interface SavedPlan {
@@ -56,4 +65,8 @@ export interface SavedPlan {
   duration: number;
   planData: ConcertPlan;
   createdAt: string;
+  origin?: string;
+  departDate?: string;
+  returnDate?: string;
+  updatedAt?: string;
 }
