@@ -1,0 +1,56 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // To prevent identity spoofing and privilege escalation
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    // User profiles
+    match /users/{userId} {
+      allow get, list: if isSignedIn();
+      allow create, update: if isOwner(userId) && request.resource.data.uid == request.auth.uid;
+    }
+
+    // Concert plans
+    match /plans/{planId} {
+      allow list, get: if isSignedIn();
+      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
+      allow update: if isSignedIn() && (resource == null || resource.data.userId == request.auth.uid);
+      allow delete: if isSignedIn() && (resource == null || !('userId' in resource.data) || resource.data.userId == request.auth.uid);
+    }
+
+    // Swiping and matching log
+    match /likes/{likeId} {
+      allow list, get: if isSignedIn();
+      allow create: if isSignedIn() && request.resource.data.fromId == request.auth.uid;
+      allow update: if isSignedIn() && (resource == null || resource.data.fromId == request.auth.uid);
+      allow delete: if isSignedIn() && (resource == null || !('fromId' in resource.data) || resource.data.fromId == request.auth.uid);
+    }
+
+    // Matched messages
+    match /messages/{messageId} {
+      allow list, get: if isSignedIn() && (
+        resource == null ||
+        resource.data.matchId.matches('^' + request.auth.uid + '_.*') || 
+        resource.data.matchId.matches('.*_' + request.auth.uid + '$')
+      );
+      allow create: if isSignedIn() && request.resource.data.senderId == request.auth.uid && (
+        request.resource.data.matchId.matches('^' + request.auth.uid + '_.*') || 
+        request.resource.data.matchId.matches('.*_' + request.auth.uid + '$')
+      );
+      allow update, delete: if isSignedIn() && (resource == null || resource.data.senderId == request.auth.uid);
+    }
+  }
+}
